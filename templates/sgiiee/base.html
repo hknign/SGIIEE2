@@ -1,0 +1,35 @@
+{% load static %}
+<!doctype html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="{% static 'logo/LOGO.png' %}">
+    <title>{% block title %}SGIIEE{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{% static 'styles/estilos.css' %}">
+    
+    {% block extra_css %}{% endblock %}
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+    {% include "sgiiee/partials/navbar.html" %}
+
+    <main class="container py-4 flex-grow-1">
+
+        {% include "sgiiee/partials/messages.html" %}
+
+        {% block contenido %}
+        {% endblock %}
+    </main>
+
+    {% include "sgiiee/partials/footer.html" %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

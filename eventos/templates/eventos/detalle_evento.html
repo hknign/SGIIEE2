@@ -1,0 +1,160 @@
+{% extends "sgiiee/base.html" %}
+{% load static %}
+
+{% block title %}Detalle del Evento{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'styles/eventos/detalle_eventos.css' %}">
+{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+
+    <!-- Información del evento -->
+    <div class="card shadow p-4 mb-4">
+        <h2 class="fw-bold text-center">{{ evento.nombre }}</h2>
+        <p><strong>Fecha:</strong> {{ evento.fecha|date:"d/m/Y" }}</p>
+        <p><strong>Hora:</strong> {{ evento.hora|time:"H:i" }}</p>
+        <p><strong>Lugar:</strong> {{ evento.lugar }}</p>
+        <p><strong>Forma del recinto:</strong> {{ evento.get_forma_recinto_display }}</p>
+        <p><strong>Capacidad:</strong> {{ evento.capacidad }}</p>
+    </div>
+
+    <!-- LEYENDA DE ZONAS -->
+    <div class="card shadow p-3 mb-4 text-center">
+        <span class="zona-info vip">Zona VIP</span>
+        <span class="zona-info avanzado">Zona Avanzado</span>
+        <span class="zona-info normal">Zona Normal</span>
+        <span class="zona-info vendido">Vendido</span>
+        <span class="zona-info apartado">Apartado</span>
+    </div>
+
+    <!-- MAPA DE ASIENTOS -->
+    <div class="card shadow p-4 mb-4">
+        <h3 class="text-center mb-3">Mapa de Asientos</h3>
+
+        <div class="d-flex justify-content-center">
+            <canvas id="mapa-asientos" width="1050" height="750"></canvas>
+        </div>
+
+        <div class="text-center mt-3">
+            <h5>
+                Seleccionados:
+                <span id="contadorSeleccionados" class="fw-bold text-primary">0</span>
+            </h5>
+
+            <button id="btnAgregarCarrito" class="btn btn-success btn-lg mt-2" data-url="{% url 'carrito:api_agregar_asientos_carrito' %}">>
+                Agregar seleccionados al carrito
+            </button>
+        </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="card shadow p-3 mb-3">
+        <h5 class="fw-bold mb-3">Filtros de asientos</h5>
+
+        <div class="row g-3">
+            <div class="col-md-4">
+                <select id="filtroEstado" class="form-select">
+                    <option value="">Todos los estados</option>
+                    <option value="disponible">Disponibles</option>
+                    <option value="apartado">Apartados</option>
+                    <option value="vendido">Vendidos</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <select id="filtroZona" class="form-select">
+                    <option value="">Todas las zonas</option>
+                    <option value="vip">Zona VIP</option>
+                    <option value="avanzado">Zona Avanzado</option>
+                    <option value="normal">Zona Normal</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <button id="btnLimpiarFiltros" class="btn btn-outline-secondary w-100">
+                    Limpiar filtros
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LISTA DE ASIENTOS -->
+    <div class="card shadow p-3">
+        <h5 class="fw-bold mb-3">Listado de Asientos</h5>
+        <div class="table-responsive" style="max-height: 350px; overflow-y: auto;">
+            <table class="table table-hover table-sm align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Código</th>
+                        <th>Zona</th>
+                        <th>Estado</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaAsientos">
+                    {% for a in asientos %}
+                    <tr data-id="{{ a.id }}"
+                        data-zona="{{ a.zona }}"
+                        data-estado="{{ a.estado }}">
+                        <td>{{ a.fila }}{{ a.numero }}</td>
+                        <td class="text-capitalize">{{ a.zona }}</td>
+                        <td class="text-capitalize">{{ a.estado }}</td>
+                        <td>${{ a.precio }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="text-center text-muted">
+                            No hay asientos generados para este evento.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+
+
+    const asientos = [{% for a in asientos %}
+        {
+            id: "{{ a.id }}",
+            x: "{{ a.pos_x }}",
+            y: "{{ a.pos_y }}",
+            zona: "{{ a.zona|escapejs }}",
+            estado: "{{ a.estado|escapejs }}",
+            codigo: "{{ a.fila }}{{ a.numero }}",
+            precio: "{{ a.precio }}"
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}];
+
+      asientos.forEach(a => {
+        a.id = parseInt(a.id);
+        a.x = parseFloat(a.x);
+        a.y = parseFloat(a.y);
+        a.precio = parseFloat(a.precio);
+    });
+    const canvas = document.getElementById("mapa-asientos");
+    const ctx = canvas.getContext("2d");
+    let seleccionados = new Set();
+
+    const URL_AGREGAR = "{% url 'carrito:api_agregar_asientos_carrito' %}";
+</script>
+
+<script src="{% static 'js/mapa_asientos.js' %}"></script>
+<script src="{% static 'js/interaccion_asientos.js' %}"></script>
+<script src="{% static 'js/carrito.js' %}"></script>
+<script src="{% static 'js/filtros.js' %}"></script>
+<script src="{% static 'js/toast.js' %}"></script>
+
+<script>
+    // Inicializar
+    dibujarMapa();
+
+    document.getElementById("btnAgregarCarrito").addEventListener("click", () => {
+        enviarAsientos(URL_AGREGAR);
+    });
+</script>
+
+{% endblock %}

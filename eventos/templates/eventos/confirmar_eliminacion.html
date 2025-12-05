@@ -1,0 +1,36 @@
+{% extends "sgiiee/base.html" %}
+{% block title %}Eliminar Evento - SGIIEE{% endblock %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-danger">
+                <div class="card-header bg-danger text-white text-center">
+                    <h4 class="mb-0">
+                        <i class="bi bi-exclamation-triangle-fill"></i> Eliminar Evento
+                    </h4>
+                </div>
+                <div class="card-body text-center">
+                    <p class="fs-5">
+                        ¿Estás seguro de que deseas eliminar el evento 
+                        <strong class="text-danger">{{ evento.nombre }}</strong>?
+                    </p>
+                    <p class="text-muted">
+                        <i class="bi bi-info-circle"></i> Esta acción <strong>no se puede deshacer</strong>.
+                    </p>
+                    <form method="post" class="mt-4">
+                        {% csrf_token %}
+                        <button class="btn btn-danger btn-lg px-4 me-2" type="submit">
+                            <i class="bi bi-trash-fill"></i> Eliminar definitivamente
+                        </button>
+                        <a class="btn btn-secondary btn-lg px-4" href="{% url 'eventos:listar_eventos' %}">
+                            <i class="bi bi-arrow-left-circle"></i> Cancelar
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

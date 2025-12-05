@@ -1,0 +1,25 @@
+{% extends "sgiiee/base.html" %}
+{% block title %}Pago{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h3 class="mb-4">💳 Pago realizado</h3>
+
+    <p>{{ mensaje }}</p>
+
+    <h5>Asientos comprados:</h5>
+    <ul>
+      {% for a in asientos %}
+        <li>{{ a.fila }}{{ a.numero }} - {{ a.zona|capfirst }} - $ {{ a.precio }}</li>
+      {% endfor %}
+    </ul>
+
+    <h4>Total: $ {{ total }}</h4>
+
+    <div class="mt-3">
+      <a href="{% url 'eventos:listar_eventos' %}" class="btn btn-primary">⬅️ Volver a eventos</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

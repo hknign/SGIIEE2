@@ -1,0 +1,27 @@
+
+#mapa-asientos {
+    width: 100%;
+    border: 2px solid #333;
+    background: #f4f4f4;
+    border-radius: 12px;
+}
+.zona-info {
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin-right: 10px;
+}
+.vip { background-color: #ffd700; color: black; }
+.avanzado { background-color: #2ecc71; color: white; }
+.normal { background-color: #7f8c8d; color: white; }
+.asiento-selected {
+    outline: 4px solid #3498db;
+    border-radius: 6px;
+}
+.tabla-asientos td {
+    font-size: 14px;
+    padding: 6px;
+}
+.filtro-btn {
+    margin-right: 8px;
+}

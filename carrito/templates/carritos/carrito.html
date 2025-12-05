@@ -1,0 +1,61 @@
+{% extends "sgiiee/base.html" %}
+{% load static %}
+
+{% block title %}Carrito{% endblock %}
+
+{% block contenido %}
+<div class="container mt-4">
+  <div class="card shadow p-4">
+    <h3 class="mb-4">🛒 Carrito de compra</h3>
+
+    {% if bloques %}
+      {% for bloque in bloques %}
+        <h5 class="mt-3">🎫 Evento: {{ bloque.evento.nombre }}</h5>
+        <p>📅 Fecha: {{ bloque.evento.fecha|date:"j F Y" }}</p>
+        <p>🪑 Asientos seleccionados: {{ bloque.cantidad }}</p>
+
+        <table class="table table-hover align-middle mb-4">
+          <thead class="table-light">
+            <tr>
+              <th>Asiento</th>
+              <th>Zona</th>
+              <th>Precio</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for a in bloque.asientos %}
+              <tr>
+                <td>{{ a.fila }}{{ a.numero }}</td>
+                <td>{{ a.zona|capfirst }}</td>
+                <td>$ {{ a.precio }}</td>
+                <td>
+                  <a href="{% url 'carrito:quitar_del_carrito' a.id %}" class="btn btn-sm btn-danger">❌ Quitar</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="2" class="text-end">Total</th>
+              <th colspan="2">$ {{ bloque.total }}</th>
+            </tr>
+          </tfoot>
+        </table>
+      {% endfor %}
+        <div class="text-end mt-4">
+          <h4>Total Global: $ {{ total_global }}</h4>
+        </div>
+
+
+      <div class="text-end mt-3">
+        <a href="{% url 'carrito:pagar_carrito' %}" class="btn btn-primary">💳 Pagar</a>
+      </div>
+    {% else %}
+      <div class="alert alert-info text-center">
+        No hay asientos añadidos al carrito.
+      </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+/* === CONTENEDOR DEL CANVAS === */
+#mapeo-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Canvas escalable sin cortar nada */
+#mapa-asientos {
+    width: 100% !important;
+    height: auto !important;
+    border: 3px solid #333;
+    background: #f8f8f8;
+    border-radius: 12px;
+    display: block;
+    margin: auto;
+}
+
+/* ZONAS */
+.zona-info {
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.vip { background-color: #ffd700; color: #000; }
+.avanzado { background-color: #27ae60; color: white; }
+.normal { background-color: #7f8c8d; color: white; }
+
+/* SELECCIONADO */
+.asiento-selected-outline {
+    outline: 4px solid #3498db !important;
+}
+
+/* Tabla */
+.tabla-asientos td {
+    font-size: 14px;
+    padding: 6px;
+}
+
+.filtro-btn {
+    margin-right: 6px;
+}
+
+

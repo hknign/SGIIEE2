@@ -1,0 +1,62 @@
+{% extends "sgiiee/base.html" %}
+{% block title %}Listado de Eventos - SGIIEE{% endblock %}
+
+{% block contenido %}
+<div class="container my-4">
+    <h2 class="mb-4 text-center">🎉 Eventos Disponibles</h2>
+
+
+    <form method="get" class="row g-2 mb-4">
+        <div class="col-md-8">
+            <input type="text" name="q" class="form-control" placeholder="Buscar evento..." value="{{ request.GET.q }}">
+        </div>
+        <div class="col-md-4 d-grid">
+            <button type="submit" class="btn btn-primary">Buscar</button>
+        </div>
+    </form>
+
+    <div class="row">
+        {% for evento in eventos %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if evento.imagen %}
+                <img src="{{ evento.imagen.url }}" class="card-img-top" alt="imagen evento">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ evento.nombre }}</h5>
+                    <p class="card-text">
+                        <strong>Fecha:</strong> {{ evento.fecha }} — {{ evento.hora }} <br>
+                        <strong>Ubicación:</strong> {{ evento.lugar }}
+                    </p>
+                    <a class="btn btn-outline-primary w-100 mb-2" href="{% url 'eventos:detalle_evento' evento.pk %}">
+                        Ver Detalle
+                    </a>
+
+                    {% if user.is_staff %}
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-warning btn-sm" href="{% url 'eventos:editar_evento' evento.pk %}">Editar</a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'eventos:eliminar_evento' evento.pk %}">Eliminar</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                No hay eventos registrados.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+ 
+    {% if user.is_staff %}
+    <div class="text-center mt-4">
+        <a href="{% url 'eventos:crear_evento' %}" class="btn btn-success">
+            ➕ Crear nuevo evento
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

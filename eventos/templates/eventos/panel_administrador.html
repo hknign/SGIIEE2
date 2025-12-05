@@ -1,0 +1,90 @@
+{% extends "sgiiee/base.html" %}
+
+{% load static %}
+
+{% block title %}Panel Administrador - SGIIEE{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'styles/eventos/panel_admin.css' %}">
+{% endblock %}
+
+{% block contenido %}
+
+<div class="container py-5">
+    <h2 class="mb-4 text-center">📊 Panel de Administración — SGIIEE</h2>
+
+    <!-- Dashboard con métricas -->
+    <div class="row mb-5 text-center">
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h3>Total de Asientos</h3>
+                    <p class="numero">{{ total_asientos }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h3>Asientos Disponibles</h3>
+                    <p class="numero">{{ asientos_disponibles }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-body">
+                    <h3>Cantidad de Eventos</h3>
+                    <p class="numero">{{ eventos.count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gestión de eventos -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">📅 Gestión de Eventos</h3>
+        <a href="{% url 'eventos:crear_evento' %}" class="btn btn-success">
+            ➕ Crear nuevo evento
+        </a>
+    </div>
+
+    <!-- Tabla de eventos -->
+    <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-body">
+            <table class="table table-hover align-middle">
+                <thead class="table-primary">
+                    <tr>
+                        <th>Evento</th>
+                        <th>Fecha</th>
+                        <th>Lugar</th>
+                        <th>Asientos disponibles</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for evento in eventos %}
+                    <tr>
+                        <td>{{ evento.nombre }}</td>
+                        <td>{{ evento.fecha }}</td>
+                        <td>{{ evento.lugar }}</td>
+                        <td>{{ evento.asientos_disponibles }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a class="btn btn-warning btn-sm" href="{% url 'eventos:editar_evento' evento.pk %}">✏️ Editar</a>
+                                <a class="btn btn-danger btn-sm" href="{% url 'eventos:eliminar_evento' evento.pk %}">🗑️ Eliminar</a>
+                                <a class="btn btn-outline-primary btn-sm" href="{% url 'eventos:detalle_evento' evento.pk %}">🔍 Ver</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center text-muted">No hay eventos registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
