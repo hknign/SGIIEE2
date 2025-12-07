@@ -25,12 +25,16 @@ class FormularioEvento(forms.ModelForm):
                 'placeholder': 'Describe brevemente el evento...',
                 'required': True
             }),
-            'fecha': forms.DateInput(attrs={
+            'fecha': forms.DateInput(
+                format="%Y-%m-%d",
+                attrs={
                 'type': 'date',
                 'class': 'form-control',
                 'required': True
             }),
-            'hora': forms.TimeInput(attrs={
+            'hora': forms.TimeInput(
+                format="%H:%M",
+                attrs={
                 'type': 'time',
                 'class': 'form-control',
                 'required': True
