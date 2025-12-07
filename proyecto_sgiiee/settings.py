@@ -79,8 +79,7 @@ WSGI_APPLICATION = 'proyecto_sgiiee.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'prueba',
-        #'NAME': 'sgiiee_bd_copy',      
+        'NAME': 'sgiiee_bd_copy',      
         'USER': 'root',          
         'PASSWORD': '',           
         'HOST': '127.0.0.1',
