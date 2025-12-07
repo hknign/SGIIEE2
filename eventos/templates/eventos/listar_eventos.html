@@ -1,4 +1,7 @@
 {% extends "sgiiee/base.html" %}
+
+{% load static %}
+
 {% block title %}Listado de Eventos - SGIIEE{% endblock %}
 
 {% block contenido %}
@@ -20,7 +23,12 @@
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
                 {% if evento.imagen %}
-                <img src="{{ evento.imagen.url }}" class="card-img-top" alt="imagen evento">
+                <img src="{{ evento.imagen.url }}" class="card-img-top" style="height: 180px; object-fit: cover;">
+
+                {% else %}
+
+                <img src="{% static 'imagenes/evento_por_defecto.jpg' %}" class="card-img-top" style="height: 180px; object-fit: cover;">
+
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ evento.nombre }}</h5>
