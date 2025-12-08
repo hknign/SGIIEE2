@@ -1,0 +1,17 @@
+.chart-container {
+    width: 100%;
+    max-width: 450px; /* puedes ajustarlo */
+    height: 350px;    /* altura fija para evitar deformación */
+    margin: auto;     /* centrar */
+}
+#graficoResenas {
+    max-height: 200px !important;
+}
+
+.card-header h5 {
+    font-weight: 600;
+}
+
+.display-4 {
+    font-size: 3rem;
+}

@@ -1,94 +1,47 @@
 {% extends "sgiiee/base.html" %}
-{% block title %}Dashboard - SGIIEE{% endblock %}
+{% load static %}
+
+{% block title %}Dashboard — SGIIEE{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" href="{% static 'styles/core/dashboard.css' %}">
+    <style>
+    .dashboard-title { font-size: 2.3rem; font-weight: 700; }
+    </style>
+{% endblock %}
 
 {% block contenido %}
 
-<h2 class="text-center mb-4">📊 Dashboard SGIIEE</h2>
 
-<div class="row text-center mb-4">
+    <h2 class="mb-4 text-center">Panel de Estadísticas</h2>
 
-    <div class="col-md-3 mb-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5>Total Eventos</h5>
-                <p class="display-6">{{ total_eventos }}</p>
-            </div>
-        </div>
+        {% include "core/partials/kpis.html" %}
+
+    <div class="row mt-5">
+        {% include "core/partials/stats_ganancias.html" %}
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5>Asientos Totales</h5>
-                <p class="display-6">{{ total_asientos }}</p>
-            </div>
-        </div>
+    <div class="row justify-content-center mt-4">
+        {% include "core/partials/stats_graficos.html" %}
     </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5>Vendidos</h5>
-                <p class="display-6 text-danger">{{ vendidos }}</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-3 mb-3">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5>Disponibles</h5>
-                <p class="display-6 text-success">{{ disponibles }}</p>
-            </div>
-        </div>
+    <hr>
+
+    <!-- FUTURO: sección de reseñas -->
+    <div class="card shadow-sm mb-4 w-100">
+    <div class="text-center mb-4">
+        <h1 class="display-4 fw-bold" id="promedioGeneral">4.2</h1>
+        <p class="text-muted">Promedio de calificación</p>
     </div>
 </div>
+    <!-- FUTURO: filtros avanzados -->
+        {% include "core/partials/stats_filtros.html" %}
 
-<div class="text-center mb-4">
-    <h4>Ganancia Total</h4>
-    <p class="fs-3 fw-bold text-primary">${{ ganancia_total|floatformat:0 }}</p>
-</div>
+{% endblock %}
 
-<hr>
-
-<h3 class="mt-4 mb-3">📅 Próximos Eventos</h3>
-
-<table class="table table-hover">
-    <thead class="table-primary">
-        <tr>
-            <th>Evento</th>
-            <th>Fecha</th>
-            <th>Asientos Disponibles</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for e in proximos %}
-        <tr>
-            <td>{{ e.nombre }}</td>
-            <td>{{ e.fecha }}</td>
-            <td>{{ e.asientos_disponibles }}</td>
-            <td>
-                <a class="btn btn-sm btn-outline-info" href="{% url 'eventos:detalle_evento' e.id %}">
-                    Ver
-                </a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr>
-            <td colspan="4" class="text-center text-muted">No hay eventos próximos.</td>
-        </tr>
-        {% endfor %}
-    </tbody>
-</table>
-
-<div class="text-center mt-4">
-    <a href="{% url 'eventos:listar_eventos' %}" class="btn btn-primary">
-        Ir al Panel de Eventos
-    </a>
-    <a href="{% url 'eventos:crear_evento' %}" class="btn btn-success">
-        Crear Evento
-    </a>
-</div>
-
+{% block extra_js %}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+    <script src="{% static 'js/core/dashboard.js' %}"></script>
 {% endblock %}
