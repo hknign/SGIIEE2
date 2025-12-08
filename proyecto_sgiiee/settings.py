@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'asientos',
     'carrito',
     'eventos.apps.EventosConfig',
+    'core.apps.CoreConfig',
 ]
 
 MIDDLEWARE = [

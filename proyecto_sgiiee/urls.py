@@ -2,11 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
-from proyecto_sgiiee.views import index
+
 
 
 urlpatterns = [
-    path("", name="index", view=index),
+    path("", include("core.urls")),
     path("eventos/", include("eventos.urls")),
     path("asientos/", include("asientos.urls")),
     path("carrito/", include("carrito.urls")),

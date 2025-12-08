@@ -10,6 +10,7 @@ from .forms import FormularioEvento
 from asientos.models import Asiento
 from asientos.utils.generar_asientos import generar_asientos, generar_escenario
 
+
 # Create your views here.
 
 # eventos/views.py
