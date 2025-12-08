@@ -3,10 +3,14 @@ from django.dispatch import receiver
 from .models import Evento
 import os
 
+# Eliminar la imagen del evento cuando se elimina el evento
+
 @receiver(post_delete, sender=Evento)
 def eliminar_imagen_evento(sender, instance, **kwargs):
     if instance.imagen:
         instance.imagen.delete(False)
+
+# Reemplazar la imagen anterior si se actualiza la imagen del evento
 
 @receiver(pre_save, sender=Evento)
 def reemplazar_imagen_anterior(sender, instance, **kwargs):
@@ -21,6 +25,8 @@ def reemplazar_imagen_anterior(sender, instance, **kwargs):
     imagen_nueva = instance.imagen
     if imagen_anterior and imagen_anterior != imagen_nueva:
         imagen_anterior.delete(save=False)
+
+# Renombrar la imagen del evento después de guardar el evento para incluir su ID en el nombre del archivo
 
 @receiver(post_save, sender=Evento)
 def renombrar_imagen_evento(sender, instance, created, **kwargs):

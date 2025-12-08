@@ -4,6 +4,9 @@ from django.utils import timezone
 
 from .models import Evento
 
+# Ajusté los widgets de fecha y hora para que envíen los valores en formato YYYY-MM-DD,
+# que es el estándar que la base de datos entiende. 
+# En el navegador los controles siguen mostrándose como siempre, según la configuración regional.
 
 class FormularioEvento(forms.ModelForm):
     class Meta:

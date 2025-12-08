@@ -8,6 +8,9 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 # Create your views here.
 
+
+#Se creo home como pagina inicial del sitio, donde se muestran los proximos 3 eventos mas cercanos a la fecha actual
+
 def home(request):
 
     hoy = timezone.now().date()
@@ -17,6 +20,8 @@ def home(request):
     return render(request, 'core/home.html', {
         'proximos': proximos,
     })
+
+#Se creo dashboard para mostrar las metricas del sistema a los administradores, por ahora se usan datos de ejemplo
 
 @staff_member_required
 def dashboard(request):
